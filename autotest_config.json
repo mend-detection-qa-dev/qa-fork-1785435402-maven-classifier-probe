@@ -60,6 +60,14 @@
       "_comment_agent_versions": "Optional. Expected agent and plugin versions. If not provided, this check will not be performed.",
       "validate_mend_tags": false,
       "_comment_validate_mend_tags": "Whether to validate project tags from Mend Platform BFF API against update request extraProperties. Options: true | false. Default: false. When true, calls the BFF projects/summaries endpoint and cross-validates sourceUrl, repoId, CTX, commitId, repoFullName tags against extraProperties (owner, commitId, branchName, repository).",
+      "validate_maven_purl": true,
+      "_comment_validate_maven_purl": "Auto-enabled by default — listed here explicitly for discoverability. Validates pkg:maven PURL format and classifier qualifiers for all MAVEN deps.",
+
+      "maven_dependencies_with_classifier": {
+        "contains": {"lwjgl": "natives-linux"}
+      },
+      "_comment_maven_dependencies_with_classifier": "Validate that lwjgl carries classifier='natives-linux'. Uses 'contains' so any other classifier-bearing deps are not flagged.",
+
       "validate_checksums": false,
       "_comment_validate_checksums": "Whether to validate SHA1 checksums of dependencies. Options: true | false. Default: false. When true, runs the checks configured in checksums_config.",
       "checksums_config": {
