@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "pattern": "classifier-dep",
+  "package_manager": "maven",
+  "java_version": "17",
+  "root": {
+    "groupId": "com.example",
+    "artifactId": "maven-classifier-probe",
+    "version": "1.0.0",
+    "type": "root"
+  },
+  "direct_dependencies": [
+    {
+      "groupId": "org.lwjgl",
+      "artifactId": "lwjgl",
+      "version": "3.3.3",
+      "classifier": "natives-linux",
+      "scope": "runtime",
+      "type": "direct",
+      "notes": "Classifier artifact — natives-linux jar is a self-contained native binary with no compile-scope transitives"
+    },
+    {
+      "groupId": "org.apache.httpcomponents",
+      "artifactId": "httpclient",
+      "version": "4.5.5",
+      "scope": "compile",
+      "type": "direct"
+    }
+  ],
+  "transitive_dependencies": [
+    {
+      "groupId": "org.apache.httpcomponents",
+      "artifactId": "httpcore",
+      "version": "4.4.9",
+      "scope": "compile",
+      "type": "transitive",
+      "required_by": ["org.apache.httpcomponents:httpclient:4.5.5"]
+    },
+    {
+      "groupId": "commons-logging",
+      "artifactId": "commons-logging",
+      "version": "1.2",
+      "scope": "compile",
+      "type": "transitive",
+      "required_by": ["org.apache.httpcomponents:httpclient:4.5.5"]
+    },
+    {
+      "groupId": "commons-codec",
+      "artifactId": "commons-codec",
+      "version": "1.10",
+      "scope": "compile",
+      "type": "transitive",
+      "required_by": ["org.apache.httpcomponents:httpclient:4.5.5"]
+    }
+  ],
+  "total_dependencies": 5,
+  "direct_count": 2,
+  "transitive_count": 3,
+  "classifier_dependencies": [
+    {
+      "groupId": "org.lwjgl",
+      "artifactId": "lwjgl",
+      "version": "3.3.3",
+      "classifier": "natives-linux",
+      "jar_filename": "lwjgl-3.3.3-natives-linux.jar",
+      "base_jar_filename": "lwjgl-3.3.3.jar",
+      "maven_central_url": "https://repo1.maven.org/maven2/org/lwjgl/lwjgl/3.3.3/lwjgl-3.3.3-natives-linux.jar"
+    }
+  ],
+  "mend_detection_expectations": {
+    "package_manager": "MAVEN",
+    "expected_min_libraries": 5,
+    "classifier_handling": "Mend should detect lwjgl either via the classifier jar filename (lwjgl-3.3.3-natives-linux.jar) or the base coordinates (org.lwjgl:lwjgl:3.3.3). If the classifier is stripped, the artifact appears as lwjgl-3.3.3.jar — both are acceptable but the presence of lwjgl must be confirmed.",
+    "scope_filter_note": "Only compile and runtime scope deps should appear in Mend results. Test-scope deps (junit, mockito pulled by httpclient) must be excluded."
+  },
+  "notes": [
+    "org.lwjgl:lwjgl:3.3.3 with classifier=natives-linux is the core probe target — Mend must handle the classifier element without dropping the artifact",
+    "httpclient:4.5.5 transitive tree is well-known: httpcore:4.4.9, commons-logging:1.2, commons-codec:1.10 (all compile scope)",
+    "LWJGL natives-linux jar verified present at https://repo1.maven.org/maven2/org/lwjgl/lwjgl/3.3.3/lwjgl-3.3.3-natives-linux.jar (HTTP 200)",
+    "httpclient pulls junit:4.11 and mockito:1.10.19 only in test scope — these must NOT appear in Mend compile+runtime results"
+  ]
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>maven-classifier-probe</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>maven-classifier-probe</name>
+    <description>
+        Mend SCA probe: exercises classifier element detection.
+        Pattern: classifier-dep — a dependency declared with a classifier attribute
+        alongside a plain dependency that pulls in known transitive deps.
+    </description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!--
+            CLASSIFIER DEP: org.lwjgl:lwjgl:3.3.3 with classifier=natives-linux.
+            The natives-linux jar is a real published artifact on Maven Central:
+            https://repo1.maven.org/maven2/org/lwjgl/lwjgl/3.3.3/lwjgl-3.3.3-natives-linux.jar
+            LWJGL itself has no compile-scope transitive deps.
+        -->
+        <dependency>
+            <groupId>org.lwjgl</groupId>
+            <artifactId>lwjgl</artifactId>
+            <version>3.3.3</version>
+            <classifier>natives-linux</classifier>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--
+            PLAIN DEP: httpclient 4.5.5 (compile scope, no classifier).
+            Pulls in three compile-scope transitives:
+              - org.apache.httpcomponents:httpcore:4.4.9
+              - commons-logging:commons-logging:1.2
+              - commons-codec:commons-codec:1.10
+        -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.5</version>
+        </dependency>
+    </dependencies>
+</project>
