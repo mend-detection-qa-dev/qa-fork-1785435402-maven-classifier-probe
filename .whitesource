@@ -16,7 +16,10 @@
   },
   "remediateSettings": {
     "workflowRules": {
-      "enabled": true
+      "enabled": false
     }
+  },
+  "scanSettingsSAST": {
+    "enableScan": false
   }
 }
